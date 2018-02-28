@@ -4,6 +4,9 @@
         <Property name="LOG_PATTERN">
             %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex
         </Property>
+        <Property name="SSL_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level|%t|%c{36}|%map{processName}|%-5map{EventState}|extIdSu,%map{extIdSu}%notEmpty{|status,%map{status}}%n
+        </Property>
     </Properties>
 
     <Appenders>
@@ -15,43 +18,30 @@
         <RollingFile name="FileAppender" fileName="logs/log4j2-demo.log"
                      filePattern="logs/log4j2-demo-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout>
-                <Pattern>${LOG_PATTERN}</Pattern>
+                <Pattern>${SSL_PATTERN}</Pattern>
             </PatternLayout>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" />
-                <SizeBasedTriggeringPolicy size="10MB" />
+                <SizeBasedTriggeringPolicy size="1MB" />
             </Policies>
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
 
-        <!-- SMTP Appender
-        <SMTP name="MailAppender"
-              subject="Log4j2 Demo [PROD]"
-              to="youremail@example.com"
-              from="log4j2-demo-alerts@example.com"
-              smtpHost="yourSMTPHost"
-              smtpPort="587"
-              smtpUsername="yourSMTPUsername"
-              smtpPassword="yourSMTPPassword"
-              bufferSize="1">
-            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout>
-                <Pattern>${LOG_PATTERN}</Pattern>
-            </PatternLayout>
-        </SMTP>
-         -->
     </Appenders>
 
     <Loggers>
         <AsyncLogger name="com.example.log4j2demo" level="debug"
                      additivity="false">
             <AppenderRef ref="ConsoleAppender" />
-            <AppenderRef ref="FileAppender" />
         </AsyncLogger>
 
         <Root level="info">
             <AppenderRef ref="ConsoleAppender" />
-            <AppenderRef ref="FileAppender" />
         </Root>
+
+        <Logger name="FileAppender" level="all" additivity="false">           
+            <AppenderRef ref="FileAppender"/>   
+        </Logger>
+
     </Loggers>
 </Configuration>
