@@ -5,7 +5,7 @@
             %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex
         </Property>
         <Property name="SSL_PATTERN">
-            %d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level|%t|%c{36}|%map{processName}|%-5map{EventState}|extIdSu,%map{extIdSu}%notEmpty{|status,%map{status}}%n
+            %d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level|%t|%c{36}|%map{processName}|%-5map{EventState}|extIdSu,%map{extIdSu}%notEmpty{|status,%map{status}}%notEmpty{|corr,%map{corr}}%n
         </Property>
     </Properties>
 

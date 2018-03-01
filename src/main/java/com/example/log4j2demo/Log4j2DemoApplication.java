@@ -7,28 +7,28 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.util.UUID;
 
 @SpringBootApplication
 public class Log4j2DemoApplication implements ApplicationRunner {
-	private static final Logger logger = LogManager.getLogger("FileAppender");
+    private static final Logger logger = LogManager.getLogger("FileAppender");
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 		SpringApplication.run(Log4j2DemoApplication.class, args);
 	}
 
-	@Override
-	public void run(ApplicationArguments applicationArguments) throws Exception {
+    @Override
+    public void run(ApplicationArguments applicationArguments) throws Exception {
 
         //
         //Prepare map with attributes valid for input
         //
         MapMessage msgRequest = new MapMessage();
         msgRequest.put("processName", "BUSINESS_PROCESS_NAME");
+        UUID myUUID = UUID.randomUUID();
+        msgRequest.put("corr", myUUID.toString());
         msgRequest.put("EventState", "start");
         msgRequest.put("extIdSu", "ext_subscriber_id_value");
-        //msg.put("extIdSu", "ext_subscriber_id_value");
-        //msg.put("extIdSu", "ext_subscriber_id_value");
-
         logger.info(msgRequest);
 
         //
@@ -36,11 +36,11 @@ public class Log4j2DemoApplication implements ApplicationRunner {
         //
         MapMessage msgResponse = new MapMessage();
         msgResponse.put("processName", "BUSINESS_PROCESS_NAME");
-        msgResponse.put("EventState", "stop");
+        msgResponse.put("corr", myUUID.toString());
+        msgResponse.put("EventState", "end");
         msgResponse.put("extIdSu", "ext_subscriber_id_value");
         msgResponse.put("status", "OK");
+        logger.info(msgResponse);
 
-		logger.info(msgResponse);
-
-	}
+    }
 }
